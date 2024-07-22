@@ -8,10 +8,13 @@ describe 'Users API', type: :request do
              name: "rspec t1",
              email: "rspect1@gmail.com",
              password: "rspect1",
-             password_confirmation: "rspect1"
+             password_confirmation: "rspect1",
+             image: fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'test_image.png'), 'image/png')
             }} 
         }.to change {User.count}.from(0).to(1)
             expect(response).to have_http_status(:created) 
+            user = User.find_by(email: "rspect1@gmail.com")
+            expect(user.image).to be_attached
             json_response = JSON.parse(response.body)
             expect(json_response).to have_key('token')
             puts "Test 1 result is: #{json_response}"     
@@ -49,7 +52,8 @@ describe 'Users API', type: :request do
 
 
     describe 'Login' do
-        let(:user) { FactoryBot.create(:user ,name: "Test User",email:"testuser@example.com",password: "password",password_confirmation:"password") }
+        let(:user) { FactoryBot.create(:user ,name: "Test User",email:"testuser@example.com",password: "password",password_confirmation:"password",image: fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'test_image.png'), 'image/png')
+        ) }
         it 'Successful login and session creation' do
           post '/login', params: { email: user.email, password: user.password }
           expect(response).to have_http_status(:created)

@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
 
    skip_before_action :authenticate_request, only: [:create]
+   JWT_SECRET = 'mysecret1'
+   ALGORITHM_TYPE = 'HS256'
 
     def create
       user = User.new(user_params)
@@ -16,10 +18,10 @@ class UsersController < ApplicationController
   
     def generate_token(user)
       payload = { user_id: user.id }
-      JWT.encode(payload, Rails.application.credentials.jwt_secret, 'HS256')
+      JWT.encode(payload, JWT_SECRET, ALGORITHM_TYPE)
     end
   
     def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation)
+      params.require(:user).permit(:name, :email, :password, :password_confirmation , :image)
     end
   end

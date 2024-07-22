@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe 'Posts API', type: :request do
 
-    let(:user) { FactoryBot.create(:user ,name: "Test User",email:"testuser@example.com",password: "password",password_confirmation:"password") }
-    let(:user2) { FactoryBot.create(:user ,name: "Test User 2",email:"testuser2@example.com",password: "password",password_confirmation:"password") }
+    let(:user) { FactoryBot.create(:user ,name: "Test User",email:"testuser@example.com",password: "password",password_confirmation:"password",image: fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'test_image.png'), 'image/png')) }
+    let(:user2) { FactoryBot.create(:user ,name: "Test User 2",email:"testuser2@example.com",password: "password",password_confirmation:"password",image: fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'test_image.png'), 'image/png')) }
     let(:tag1) { FactoryBot.create(:tag, name: "tag1") }
     let(:tag2) { FactoryBot.create(:tag, name: "tag2") }
     let(:post_instance) { FactoryBot.create(:post, title: "test", body: "test", author: user, tags: [tag1]) }
